@@ -1,6 +1,8 @@
-package taskapi.assignment;
+package taskapi.assignment.infrastructure;
 
 import org.springframework.stereotype.Repository;
+import taskapi.assignment.domain.Assignment;
+import taskapi.assignment.domain.AssignmentRepository;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -9,10 +11,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
-class AssignmentRepository {
+public class MapAssignmentRepository implements AssignmentRepository {
     protected Map<String, List<String>> assignments = new LinkedHashMap<>();
 
-    void add(Assignment assignment) {
+    public void add(Assignment assignment) {
         List<String> tasks = assignments.get(assignment.getPersonId());
         if(tasks == null){
             tasks = new ArrayList<>();
@@ -21,7 +23,7 @@ class AssignmentRepository {
         assignments.put(assignment.getPersonId(), tasks);
     }
 
-    List<Assignment> getAllByPerson(String personId) {
+    public List<Assignment> getAllByPerson(String personId) {
         return assignments.get(personId)
                 .stream()
                 .map(taskId -> new Assignment(personId, taskId))

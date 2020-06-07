@@ -1,4 +1,4 @@
-package taskapi.person;
+package taskapi.assignment.infrastructure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,17 +7,14 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Configuration
-public class PersonRouter {
+public class AssignmentRouter {
 
 	@Bean
-	public RouterFunction<ServerResponse> personRoute(PersonHandler handler) {
+	public RouterFunction<ServerResponse> assignmentRoute(AssignmentHandler handler) {
 
     return RouterFunctions.route()
-			.GET("/persons", handler::getAll)
-			.POST("/persons", handler::addOne)
-			.GET("/persons/{id}", handler::getOne)
-			.PUT("/persons/{id}", handler::updateOne)
-			.DELETE("/persons/{id}", handler::deleteOne)
+			.GET("/assignments", handler::getAll)
+			.POST("/assignments", handler::addOne)
 			.build();
 	}
 }

@@ -1,9 +1,11 @@
-package taskapi.assignment;
+package taskapi.assignment.infrastructure;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import taskapi.assignment.domain.Assignment;
+import taskapi.assignment.domain.AssignmentRepository;
 
 public class AssignmentRouterIT {
 
@@ -11,7 +13,7 @@ public class AssignmentRouterIT {
 
     @Before
     public void setUp(){
-        final AssignmentRepository assignmentRepository = new AssignmentRepository();
+        final AssignmentRepository assignmentRepository = new MapAssignmentRepository();
         assignmentRepository.add(new Assignment("1", "1"));
         assignmentRepository.add(new Assignment("2", "2"));
         final AssignmentHandler assignmentHandler = new AssignmentHandler(assignmentRepository);

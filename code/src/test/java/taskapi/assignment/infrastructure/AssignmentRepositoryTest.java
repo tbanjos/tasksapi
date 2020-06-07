@@ -1,17 +1,18 @@
-package taskapi.assignment;
+package taskapi.assignment.infrastructure;
 
 import org.junit.Test;
+import taskapi.assignment.domain.Assignment;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
 
 public class AssignmentRepositoryTest {
 
-    AssignmentRepository repository = new AssignmentRepository();
+    MapAssignmentRepository repository = new MapAssignmentRepository();
 
     @Test
     public void add() {

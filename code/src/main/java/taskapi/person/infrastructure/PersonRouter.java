@@ -1,4 +1,4 @@
-package taskapi.task;
+package taskapi.person.infrastructure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,17 +7,17 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Configuration
-public class TaskRouter {
+public class PersonRouter {
 
 	@Bean
-	public RouterFunction<ServerResponse> taskRoute(TaskHandler handler) {
+	public RouterFunction<ServerResponse> personRoute(PersonHandler handler) {
 
     return RouterFunctions.route()
-			.GET("/tasks", handler::getAll)
-			.POST("/tasks", handler::addOne)
-			.GET("/tasks/{id}", handler::getOne)
-			.PUT("/tasks/{id}", handler::updateOne)
-			.DELETE("/tasks/{id}", handler::deleteOne)
+			.GET("/persons", handler::getAll)
+			.POST("/persons", handler::addOne)
+			.GET("/persons/{id}", handler::getOne)
+			.PUT("/persons/{id}", handler::updateOne)
+			.DELETE("/persons/{id}", handler::deleteOne)
 			.build();
 	}
 }

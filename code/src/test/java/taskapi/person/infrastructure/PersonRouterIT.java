@@ -1,9 +1,11 @@
-package taskapi.person;
+package taskapi.person.infrastructure;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import taskapi.person.domain.Person;
+import taskapi.person.domain.PersonRepository;
 
 public class PersonRouterIT {
 
@@ -11,7 +13,7 @@ public class PersonRouterIT {
 
     @Before
     public void setUp() {
-        final PersonRepository personRepository = new PersonRepository();
+        final PersonRepository personRepository = new MapPersonRepository();
         personRepository.add(new Person("1", "Ana"));
         personRepository.add(new Person("2", "Joan"));
         final PersonHandler taskHandler = new PersonHandler(personRepository);

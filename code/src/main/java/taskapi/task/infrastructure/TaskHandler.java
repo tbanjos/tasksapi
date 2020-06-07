@@ -1,4 +1,4 @@
-package taskapi.task;
+package taskapi.task.infrastructure;
 
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
@@ -9,6 +9,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import taskapi.task.domain.TaskRepository;
+import taskapi.task.domain.Task;
 
 @Component
 public class TaskHandler {

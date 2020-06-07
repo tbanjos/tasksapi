@@ -1,9 +1,10 @@
-package taskapi.task;
+package taskapi.task.infrastructure;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import taskapi.task.domain.Task;
 
 public class TaskRouterIT {
 
@@ -11,7 +12,7 @@ public class TaskRouterIT {
 
     @Before
     public void setUp() {
-        final TaskRepository taskRepository = new TaskRepository();
+        final MapTaskRepository taskRepository = new MapTaskRepository();
         final TaskHandler taskHandler = new TaskHandler(taskRepository);
         final TaskRouter taskRouter = new TaskRouter();
         taskRepository.add(new Task("1", "firstTask"));
