@@ -1,18 +1,16 @@
 package taskapi.person.infrastructure;
 
-import org.springframework.stereotype.Repository;
-import taskapi.person.domain.Person;
-import taskapi.person.domain.PersonRepository;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-@Repository
-public
-class MapPersonRepository implements PersonRepository {
-    protected Map<String, Person> persons = new LinkedHashMap<>();
+import taskapi.person.domain.Person;
+import taskapi.person.domain.PersonRepository;
+
+public class MapPersonRepository implements PersonRepository {
+    private Map<String, Person> persons = new LinkedHashMap<>();
 
     @Override
     public List<Person> getAll(){
@@ -25,8 +23,12 @@ class MapPersonRepository implements PersonRepository {
     }
 
     @Override
-    public Person get(String id) {
-        return persons.get(id);
+    public Optional<Person> get(String id) {
+        final Person person = persons.get(id);
+        if(person == null){
+            return Optional.empty();
+        }
+        return Optional.of(person);
     }
 
     @Override

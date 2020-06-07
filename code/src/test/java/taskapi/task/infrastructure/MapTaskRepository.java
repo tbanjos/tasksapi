@@ -1,17 +1,16 @@
 package taskapi.task.infrastructure;
 
-import org.springframework.stereotype.Repository;
-import taskapi.task.domain.Task;
-import taskapi.task.domain.TaskRepository;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-@Repository
+import taskapi.task.domain.Task;
+import taskapi.task.domain.TaskRepository;
+
 public class MapTaskRepository implements TaskRepository {
-    protected Map<String, Task> tasks = new LinkedHashMap<>();
+    Map<String, Task> tasks = new LinkedHashMap<>();
 
     @Override
     public List<Task> getAll(){
@@ -24,10 +23,9 @@ public class MapTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Task get(String id) {
-        return tasks.get(id);
+    public Optional<Task> get(String id) {
+        return Optional.of(tasks.get(id));
     }
-
     @Override
     public void update(Task task) {
         tasks.put(task.getId(), task);

@@ -1,23 +1,25 @@
 package taskapi.person.infrastructure;
 
-import org.junit.Before;
-import org.junit.Test;
-import taskapi.person.domain.Person;
-
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import taskapi.person.domain.Person;
+import taskapi.person.domain.PersonRepository;
 
 public class PersonRepositoryTest {
 
-    MapPersonRepository repository = new MapPersonRepository();
+    private PersonRepository repository = new MapPersonRepository();
 
     @Before
     public void setUp(){
-        repository.persons.put("1", new Person("1", "charlie"));
-        repository.persons.put("2", new Person("2", "alice"));
+        repository.add(new Person("1", "charlie"));
+        repository.add(new Person("2", "alice"));
     }
 
     @Test
@@ -39,8 +41,9 @@ public class PersonRepositoryTest {
 
         repository.add(new Person(personId, alias));
 
-        assertThat(repository.persons.get(personId).getId(), is(personId));
-        assertThat(repository.persons.get(personId).getAlias(), is(alias));
+        final Person person = repository.get(personId).get();
+        assertThat(person.getId(), is(personId));
+        assertThat(person.getAlias(), is(alias));
     }
 
     @Test
@@ -48,7 +51,7 @@ public class PersonRepositoryTest {
         String personId = "1";
         Person expected = new Person(personId, "charlie");
 
-        Person result = repository.get(personId);
+        Person result = repository.get(personId).orElseThrow();
 
         assertThat(result, is(expected));
     }
@@ -60,7 +63,7 @@ public class PersonRepositoryTest {
 
         repository.update(new Person(personId, newAlias));
 
-        assertThat(repository.persons.get(personId).getAlias(), is(newAlias));
+        assertThat(repository.get(personId).get().getAlias(), is(newAlias));
     }
 
     @Test
@@ -69,6 +72,6 @@ public class PersonRepositoryTest {
 
         repository.delete(personId1);
 
-        assertThat(repository.persons.get(personId1), nullValue());
+        assertThat(repository.get(personId1), is(Optional.empty()));
     }
 }

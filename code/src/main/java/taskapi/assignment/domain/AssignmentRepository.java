@@ -3,9 +3,9 @@ package taskapi.assignment.domain;
 import java.util.List;
 
 public interface AssignmentRepository {
-    void add(Assignment assignment);
+    void add(SingleAssignment assignment);
 
-    List<Assignment> getAllByPerson(String personId);
+    Assignments getAllByPerson(String personId);
 
-    List<Assignment> getAll();
+    List<Assignments> getAll();
 }

@@ -1,13 +1,14 @@
 package taskapi.task.domain;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskRepository {
     List<Task> getAll();
 
     void add(Task task);
 
-    Task get(String id);
+    Optional<Task> get(String id);
 
     void update(Task task);
 

@@ -1,13 +1,14 @@
 package taskapi.person.domain;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PersonRepository {
     List<Person> getAll();
 
     void add(Person person);
 
-    Person get(String id);
+    Optional<Person> get(String id);
 
     void update(Person person);
 

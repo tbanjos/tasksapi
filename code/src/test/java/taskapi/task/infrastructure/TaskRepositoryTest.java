@@ -1,14 +1,15 @@
 package taskapi.task.infrastructure;
 
-import org.junit.Before;
-import org.junit.Test;
-import taskapi.task.domain.Task;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.nullValue;
+import org.junit.Before;
+import org.junit.Test;
+
+import taskapi.task.domain.Task;
 
 public class TaskRepositoryTest {
 
@@ -47,7 +48,7 @@ public class TaskRepositoryTest {
     public void get() {
         Task expected = new Task("1", "task 1");
 
-        Task result = repository.get("1");
+        Task result = repository.get("1").get();
 
         assertThat(result, is(expected));
     }

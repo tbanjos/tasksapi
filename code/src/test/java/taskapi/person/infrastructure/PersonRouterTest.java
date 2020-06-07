@@ -7,9 +7,9 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import taskapi.person.domain.Person;
 import taskapi.person.domain.PersonRepository;
 
-public class PersonRouterIT {
+public class PersonRouterTest {
 
-    WebTestClient client;
+    private WebTestClient client;
 
     @Before
     public void setUp() {

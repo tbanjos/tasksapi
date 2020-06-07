@@ -6,9 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import taskapi.task.domain.Task;
 
-public class TaskRouterIT {
+public class TaskRouterTest {
 
-    WebTestClient client;
+    private WebTestClient client;
 
     @Before
     public void setUp() {

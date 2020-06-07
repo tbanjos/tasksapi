@@ -1,15 +1,16 @@
 package taskapi.person.infrastructure;
 
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import taskapi.person.domain.Person;
 import taskapi.person.domain.PersonRepository;
-
-import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 @Component
 public class PersonHandler {
@@ -36,15 +37,15 @@ public class PersonHandler {
   Mono<ServerResponse> getOne(ServerRequest request) {
     final String id = request.pathVariable("id");
     System.out.println(id);
-    Mono<Person> mono = Mono.just(repository.get(id));
+    Mono<Person> mono = Mono.justOrEmpty(repository.get(id));
     return ok().contentType(MediaType.APPLICATION_JSON).body(mono, Person.class);
   }
 
   Mono<ServerResponse> updateOne(ServerRequest request) {
-    Mono<Person> mono = request.bodyToMono(Person.class).flatMap(newTask -> {
+    Mono<Person> mono = request.bodyToMono(Person.class).flatMap(newPerson -> {
       final String id = request.pathVariable("id");
-      Person person = repository.get(id);
-      person.setAlias(newTask.getAlias());
+      Person person = repository.get(id).orElse(new Person(id, newPerson.getAlias()));
+      person.setAlias(newPerson.getAlias());
       repository.update(person);
       return Mono.just(person);
     });
