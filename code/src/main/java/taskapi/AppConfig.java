@@ -1,16 +1,19 @@
 package taskapi;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
+import com.mongodb.MongoClient;
 
 @Configuration
 public class AppConfig {
 
+    @Value("${database.hostname}")
+    private String databaseHostname;
+
     public @Bean
     MongoClient mongoClient() {
-        return MongoClients.create("mongodb://localhost:27017");
+        return new MongoClient(databaseHostname);
     }
 }

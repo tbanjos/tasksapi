@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClient;
 
 import taskapi.task.domain.Task;
 import taskapi.task.domain.TaskRepository;

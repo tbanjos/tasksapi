@@ -2,8 +2,9 @@ package taskapi.assignment.infrastructure;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -11,11 +12,12 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClient;
 
 import taskapi.assignment.domain.AssignmentRepository;
-import taskapi.assignment.domain.Assignments;
+import taskapi.assignment.domain.PersonAssignments;
 import taskapi.assignment.domain.SingleAssignment;
+import taskapi.person.domain.Person;
 
 @Repository
 public class MongoAssignmentRepository implements AssignmentRepository {
@@ -28,23 +30,26 @@ public class MongoAssignmentRepository implements AssignmentRepository {
 
     @Override
     public void add(SingleAssignment assignment) {
-        mongoOps.updateFirst(new Query(where("id").is(assignment.getPersonId())),
+        mongoOps.upsert(new Query(where("id").is(assignment.getPersonId())),
                              new Update().addToSet("taskIds", assignment.getTaskId()),
-                             "Person");
-
+                             Person.class);
     }
 
     @Override
-    public Assignments getAllByPerson(String personId) {
-        final Assignments assignments = mongoOps.findOne(new Query(where("id").is(personId)), Assignments.class, "Person");
-        if(assignments == null){
-            return new Assignments(personId, new ArrayList<>());
+    public Optional<PersonAssignments> getAllByPerson(String personId) {
+        final Person person = mongoOps.findOne(new Query(where("id").is(personId)), Person.class);
+        if(person == null || person.getTaskIds().isEmpty()){
+            return Optional.empty();
         }
-        return assignments;
+        return Optional.of(new PersonAssignments(person.getId(), person.getTaskIds()));
     }
 
     @Override
-    public List<Assignments> getAll() {
-        return mongoOps.findAll(Assignments.class, "Person");
+    public List<PersonAssignments> getAll() {
+        final List<Person> persons = mongoOps.findAll(Person.class);
+        return persons.stream()
+            .filter(person -> !person.getTaskIds().isEmpty())
+            .map(person -> new PersonAssignments(person.getId(), person.getTaskIds()))
+            .collect(Collectors.toList());
     }
 }

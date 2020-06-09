@@ -1,11 +1,14 @@
 package taskapi.person.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Person {
 
   private String id;
   private String alias;
+  private List<String> taskIds = new ArrayList<>();
 
   public Person(){}
 
@@ -38,5 +41,13 @@ public class Person {
   @Override
   public int hashCode() {
     return Objects.hash(id, alias);
+  }
+
+  public List<String> getTaskIds() {
+    return taskIds;
+  }
+
+  public void setTaskIds(List<String> taskIds) {
+    this.taskIds = taskIds;
   }
 }

@@ -5,11 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import taskapi.assignment.domain.AssignmentRepository;
-import taskapi.assignment.domain.Assignments;
+import taskapi.assignment.domain.PersonAssignments;
 import taskapi.assignment.domain.SingleAssignment;
 
 public class MapAssignmentRepository implements AssignmentRepository {
@@ -27,18 +28,18 @@ public class MapAssignmentRepository implements AssignmentRepository {
         assignments.put(assignment.getPersonId(), tasks);
     }
 
-    public Assignments getAllByPerson(String personId) {
+    public Optional<PersonAssignments> getAllByPerson(String personId) {
         final List<String> tasks = assignments.get(personId);
-        return new Assignments(personId, Objects.requireNonNullElseGet(tasks, ArrayList::new));
+        return Optional.of(new PersonAssignments(personId, Objects.requireNonNullElseGet(tasks, ArrayList::new)));
     }
 
-    public List<Assignments> getAll() {
+    public List<PersonAssignments> getAll() {
         final Set<String> all = assignments.keySet();
         if (all.isEmpty()) {
             return new ArrayList<>();
         }
         return all.stream()
-                .map(personId -> new Assignments(personId, assignments.get(personId)))
+                .map(personId -> new PersonAssignments(personId, assignments.get(personId)))
                 .collect(Collectors.toList());
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import taskapi.assignment.domain.Assignments;
+import taskapi.assignment.domain.PersonAssignments;
 import taskapi.assignment.domain.SingleAssignment;
 
 public class AssignmentRepositoryTest {
@@ -32,8 +32,8 @@ public class AssignmentRepositoryTest {
         String taskId2 = "2";
         repository.assignments.put(personId1, Arrays.asList(taskId1, taskId2));
 
-        Assignments assignments = repository.getAllByPerson(personId1);
-        assertThat(assignments, is(new Assignments(personId1, Arrays.asList(taskId1, taskId2))));
+        PersonAssignments assignments = repository.getAllByPerson(personId1).get();
+        assertThat(assignments, is(new PersonAssignments(personId1, Arrays.asList(taskId1, taskId2))));
     }
 
     @Test
@@ -45,9 +45,9 @@ public class AssignmentRepositoryTest {
         repository.assignments.put(personId1, Arrays.asList(taskId1, taskId2));
         repository.assignments.put(personId2, Collections.singletonList(taskId1));
 
-        List<Assignments> assignments = repository.getAll();
+        List<PersonAssignments> assignments = repository.getAll();
         assertThat(assignments.size(), is(2));
-        assertThat(assignments.get(0), is(new Assignments(personId1, Arrays.asList(taskId1, taskId2))));
-        assertThat(assignments.get(1), is(new Assignments(personId2, Collections.singletonList(taskId1))));
+        assertThat(assignments.get(0), is(new PersonAssignments(personId1, Arrays.asList(taskId1, taskId2))));
+        assertThat(assignments.get(1), is(new PersonAssignments(personId2, Collections.singletonList(taskId1))));
     }
 }

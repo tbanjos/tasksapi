@@ -2,5 +2,5 @@
 #   gradle bootJar
 
 FROM openjdk:13-alpine
-COPY build/libs/taskapi.jar /
-CMD ["java", "-jar", "taskapi.jar"]
+COPY build/libs/code.jar /
+CMD ["java", "-jar", "code.jar"]

@@ -10,20 +10,22 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
+import com.mongodb.MongoClient;
 
 import taskapi.person.domain.Person;
 import taskapi.person.domain.PersonRepository;
 
 public class PersonRepositoryIT {
 
-    private final MongoClient mongoClient = MongoClients.create();
+    private final MongoClient mongoClient = new MongoClient();
     private PersonRepository repository = new MongoPersonRepository(mongoClient);
 
     @Before
     public void setUp() {
-        new MongoTemplate(mongoClient, "tasksdb").dropCollection(Person.class);
+        final MongoTemplate mongoOps = new MongoTemplate(mongoClient, "tasksdb");
+        if (mongoOps.collectionExists(Person.class)) {
+            mongoOps.dropCollection(Person.class);
+        }
 
         repository.add(new Person("1", "hello"));
         repository.add(new Person("2", "bye"));

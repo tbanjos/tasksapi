@@ -2,7 +2,9 @@ package taskapi.assignment.infrastructure;
 
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -11,7 +13,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import taskapi.assignment.domain.Assignments;
+import taskapi.assignment.domain.PersonAssignments;
 import taskapi.assignment.domain.AssignmentRepository;
 import taskapi.assignment.domain.SingleAssignment;
 
@@ -25,10 +27,13 @@ public class AssignmentHandler {
   }
 
   Mono<ServerResponse> getAll(ServerRequest request) {
-    Flux<Assignments> res = Flux.fromIterable(request.queryParam("personId")
-            .map(personId -> Collections.singletonList(repository.getAllByPerson(personId)))
+    Flux<PersonAssignments> res = Flux.fromIterable(request.queryParam("personId")
+            .map(personId -> {
+              final Optional<PersonAssignments> allByPerson = repository.getAllByPerson(personId);
+              return allByPerson.map(Collections::singletonList).orElseGet(ArrayList::new);
+            })
             .orElseGet(repository::getAll));
-    return ok().contentType(MediaType.APPLICATION_JSON).body(res, Assignments.class);
+    return ok().contentType(MediaType.APPLICATION_JSON).body(res, PersonAssignments.class);
   }
 
   Mono<ServerResponse> addOne(ServerRequest request) {

@@ -3,14 +3,14 @@ package taskapi.assignment.domain;
 import java.util.List;
 import java.util.Objects;
 
-public class Assignments {
+public class PersonAssignments {
 
     private String personId;
     private List<String> taskIds;
 
-    public Assignments(){}
+    public PersonAssignments(){}
 
-    public Assignments(String personId, List<String> taskIds) {
+    public PersonAssignments(String personId, List<String> taskIds) {
         this.personId = personId;
         this.taskIds = taskIds;
     }
@@ -27,7 +27,7 @@ public class Assignments {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Assignments that = (Assignments) o;
+        PersonAssignments that = (PersonAssignments) o;
         return personId.equals(that.personId) &&
                 taskIds.equals(that.taskIds);
     }

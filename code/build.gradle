@@ -11,13 +11,26 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-webflux'
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.mockito:mockito-core:2.1.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mockito:mockito-core:2.1.0'
     testImplementation 'junit:junit:4.13'
 }
 
 test{
     useJUnit()
+
+    filter {
+        excludeTestsMatching "*IT"
+    }
+}
+
+task integrationTest(type: Test) {
+    description = 'Runs the integration tests.'
+    group = 'verification'
+
+    filter {
+        includeTestsMatching "*IT"
+    }
 }
 
 bootJar {

@@ -1,11 +1,12 @@
 package taskapi.assignment.domain;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AssignmentRepository {
     void add(SingleAssignment assignment);
 
-    Assignments getAllByPerson(String personId);
+    Optional<PersonAssignments> getAllByPerson(String personId);
 
-    List<Assignments> getAll();
+    List<PersonAssignments> getAll();
 }
